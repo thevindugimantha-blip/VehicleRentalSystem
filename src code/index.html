@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go Ride — Rent. Ride. Explore.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="publicSite">
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark"><img src="images/goride-logo.png" alt="Go Ride"></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#fleet">Fleet</a>
+      <a href="#how">How it works</a>
+      <a href="#why">Why us</a>
+      <a href="#reviews">Reviews</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="signInBtn">Sign in</button>
+      <button class="btn btn-ghost" id="loginNavBtn">Login</button>
+      <a href="#fleet" class="btn btn-solid">Book a vehicle</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">Self-drive rentals · 42 cities</p>
+      <h1>Rent the ride.<br>Own the road.</h1>
+      <p class="hero-sub">Sedans, SUVs, bikes and vans — unlocked by the hour or the week. No counters, no queues, just a plate number and a set of keys waiting for you.</p>
+    </div>
+
+    <form class="search-console" id="searchForm">
+      <div class="console-row">
+        <div class="field">
+          <label for="pickupCity">Pickup city</label>
+          <input type="text" id="pickupCity" placeholder="Colombo, Kandy, Galle…" value="Colombo">
+        </div>
+        <div class="field">
+          <label for="vehicleType">Vehicle type</label>
+          <select id="vehicleType">
+            <option value="all">All types</option>
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+            <option value="van">Van</option>
+            <option value="bike">Bike</option>
+          </select>
+        </div>
+      </div>
+      <div class="console-row">
+        <div class="field">
+          <label for="pickupDate">Pickup</label>
+          <input type="date" id="pickupDate">
+        </div>
+        <div class="field">
+          <label for="returnDate">Return</label>
+          <input type="date" id="returnDate">
+        </div>
+        <button type="submit" class="btn btn-solid console-submit">Find a vehicle</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="route-line" aria-hidden="true"></div>
+</section>
+
+<section class="stats-strip">
+  <div class="wrap stats-inner">
+    <div class="stat"><span class="stat-num">318</span><span class="stat-label">vehicles live</span></div>
+    <div class="stat"><span class="stat-num">42</span><span class="stat-label">cities covered</span></div>
+    <div class="stat"><span class="stat-num">4.8</span><span class="stat-label">average rating</span></div>
+    <div class="stat"><span class="stat-num">12 min</span><span class="stat-label">avg. handover time</span></div>
+  </div>
+</section>
+
+<section class="fleet" id="fleet">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">The fleet</p>
+        <h2>Pick your plate</h2>
+      </div>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="tab is-active" data-filter="all">All</button>
+        <button class="tab" data-filter="sedan">Sedan</button>
+        <button class="tab" data-filter="suv">SUV</button>
+        <button class="tab" data-filter="van">Van</button>
+        <button class="tab" data-filter="bike">Bike</button>
+      </div>
+    </div>
+
+    <div class="fleet-grid" id="fleetGrid"><!-- cards injected by JS --></div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <p class="eyebrow">The route</p>
+    <h2>Three stops to the keys</h2>
+
+    <div class="route-steps">
+      <div class="step">
+        <span class="step-plate">A</span>
+        <h3>Choose your vehicle</h3>
+        <p>Filter by type, seats or budget and lock in your pickup and return dates.</p>
+      </div>
+      <div class="step">
+        <span class="step-plate">B</span>
+        <h3>Confirm &amp; pay</h3>
+        <p>Review the total up front — no hidden mileage fees or surprise add-ons.</p>
+      </div>
+      <div class="step">
+        <span class="step-plate">C</span>
+        <h3>Collect &amp; drive</h3>
+        <p>Meet your host at the pickup point, do a 2-minute walkaround, and go.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="wrap why-inner">
+    <div class="why-copy">
+      <p class="eyebrow">Why Go Ride</p>
+      <h2>Built for people who'd rather be driving than waiting</h2>
+      <ul class="why-list">
+        <li><strong>Transparent pricing.</strong> The price on the card is the price you pay. Tax and insurance included.</li>
+        <li><strong>Verified vehicles.</strong> Every car and bike passes a 40-point check before it's listed.</li>
+        <li><strong>Free cancellation.</strong> Plans change — cancel up to 24 hours before pickup, no charge.</li>
+        <li><strong>Real humans, 24/7.</strong> A road-side line that actually picks up.</li>
+      </ul>
+    </div>
+    <div class="why-visual" aria-hidden="true">
+      <div class="plate-card">
+        <span class="plate-label">GO RIDE</span>
+        <span class="plate-number">GR · 2481</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <p class="eyebrow">Reviews</p>
+    <h2>From the driver's seat</h2>
+
+    <div class="review-track" id="reviewTrack">
+      <div class="review-card">
+        <p class="review-quote">Booked an SUV for a weekend trip to Ella — the whole thing took four minutes and the car was spotless.</p>
+        <p class="review-name">Nadeesha P.</p>
+      </div>
+      <div class="review-card">
+        <p class="review-quote">I rent a bike from Go Ride most weeks now. Pricing is exactly what it says, every time.</p>
+        <p class="review-name">Ruwan K.</p>
+      </div>
+      <div class="review-card">
+        <p class="review-quote">Cancelled a booking the night before a trip fell through. Refund landed before I'd even finished packing.</p>
+        <p class="review-name">Ishara D.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap cta-inner">
+    <h2>Your next trip is a plate number away.</h2>
+    <a href="#fleet" class="btn btn-solid">Browse the fleet</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark"><img src="images/goride-logo.png" alt="Go Ride"></span>
+      <p>Self-drive vehicle rentals across Sri Lanka.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h4>Company</h4>
+        <a href="#why">About</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#how">How it works</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="#">Help centre</a>
+        <a href="#">Cancellations</a>
+        <a href="#">Contact</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Insurance</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 Go Ride. All rights reserved.</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div id="modalContent"><!-- injected by JS --></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</div><!-- /#publicSite -->
+
+<!-- ================= LOGIN VIEW (admin + customer) ================= -->
+<div class="admin-view" id="loginView">
+  <div class="admin-login-wrap">
+    <div class="admin-login-box">
+      <span class="brand-mark"><img src="images/goride-logo.png" alt="Go Ride"></span>
+      <h1>Log in</h1>
+      <p class="sub">Customers and admins both log in here.</p>
+
+      <div class="admin-error" id="loginErrorMsg">Incorrect username/phone or password.</div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginUser">Username or phone number</label>
+          <input type="text" id="loginUser" autocomplete="username" required>
+        </div>
+        <div class="field" style="margin-top:.9rem;">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-solid btn-block" style="margin-top:1.3rem;">Log in</button>
+      </form>
+
+      <button type="button" class="admin-back" id="loginBackBtn">← Back to site</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CUSTOMER PROFILE VIEW ================= -->
+<div class="admin-view" id="customerProfileView">
+  <header class="admin-header">
+    <div class="brand">
+      <span class="brand-mark"><img src="images/goride-logo.png" alt="Go Ride"></span>
+      <span class="brand-name">My profile</span>
+    </div>
+    <button class="btn btn-ghost" id="customerLogoutBtn">Log out</button>
+  </header>
+
+  <main class="admin-main">
+    <h1>Welcome back<span id="customerWelcomeName"></span></h1>
+
+    <div class="admin-stat-grid" id="customerStatGrid"><!-- filled by JS --></div>
+
+    <div class="section-head">
+      <div><h2>Your details</h2></div>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <tbody id="customerDetailsBody"><!-- filled by JS --></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- ================= ADMIN DASHBOARD VIEW ================= -->
+<div class="admin-view" id="adminDashboardView">
+  <header class="admin-header">
+    <div class="brand">
+      <span class="brand-mark"><img src="images/goride-logo.png" alt="Go Ride"></span>
+      <span class="brand-name">Go Ride Admin</span>
+    </div>
+    <button class="btn btn-ghost" id="adminLogoutBtn">Log out</button>
+  </header>
+
+  <main class="admin-main">
+    <div class="admin-stat-grid" id="adminStatGrid"><!-- filled by JS --></div>
+
+    <div class="section-head">
+      <div><h2>Vehicles</h2></div>
+    </div>
+
+    <form id="addVehicleForm" class="search-console" style="margin-bottom:1.6rem;">
+      <div class="console-row">
+        <div class="field">
+          <label for="vName">Vehicle name</label>
+          <input type="text" id="vName" placeholder="e.g. Aqua Hybrid" required>
+        </div>
+        <div class="field">
+          <label for="vPlate">Plate number</label>
+          <input type="text" id="vPlate" placeholder="e.g. MM-5012" required>
+        </div>
+      </div>
+      <div class="console-row" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+        <div class="field">
+          <label for="vType">Type</label>
+          <select id="vType">
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+            <option value="van">Van</option>
+            <option value="bike">Bike</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="vSeats">Seats</label>
+          <input type="number" id="vSeats" min="1" value="5" required>
+        </div>
+        <div class="field">
+          <label for="vPrice">Price / day (Rs.)</label>
+          <input type="number" id="vPrice" min="0" placeholder="e.g. 5000" required>
+        </div>
+        <button type="submit" class="btn btn-solid console-submit">Add vehicle</button>
+      </div>
+    </form>
+
+    <div class="admin-table-wrap" style="margin-bottom:2.4rem;">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Vehicle</th><th>Plate</th><th>Type</th><th>Seats</th><th>Price / day</th><th></th></tr>
+        </thead>
+        <tbody id="vehicleTableBody"><!-- filled by JS --></tbody>
+      </table>
+    </div>
+
+    <div class="section-head">
+      <div><h2>Customers</h2></div>
+    </div>
+
+    <form id="addCustomerForm" class="search-console" style="margin-bottom:1.6rem;">
+      <div class="console-row">
+        <div class="field">
+          <label for="cName">Full name</label>
+          <input type="text" id="cName" placeholder="Customer name" required>
+        </div>
+        <div class="field">
+          <label for="cPhone">Telephone number</label>
+          <input type="tel" id="cPhone" placeholder="07X XXX XXXX" required>
+        </div>
+      </div>
+      <div class="console-row" style="grid-template-columns: 1fr auto;">
+        <div class="field">
+          <label for="cId">ID number</label>
+          <input type="text" id="cId" placeholder="National ID / Passport no." required>
+        </div>
+        <button type="submit" class="btn btn-solid console-submit">Add customer</button>
+      </div>
+    </form>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Name</th><th>Phone</th><th>ID number</th><th></th></tr>
+        </thead>
+        <tbody id="customerTableBody"><!-- filled by JS --></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
