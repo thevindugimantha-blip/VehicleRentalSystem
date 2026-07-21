@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — Go Ride</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --asphalt: #1B222C;
+  --asphalt-soft: #262F3B;
+  --ivory: #FAF6EF;
+  --card: #FFFFFF;
+  --charcoal: #23262B;
+  --muted: #6B7280;
+  --line: #E5DFD2;
+  --amber: #F5A623;
+  --amber-dark: #D98C0F;
+  --teal: #2F6F62;
+  --teal-soft: #E7EFEC;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-s: 6px;
+  --radius-m: 12px;
+  --radius-l: 20px;
+  --shadow-card: 0 10px 30px -14px rgba(27,34,44,0.25);
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: var(--font-body);
+  color: var(--charcoal);
+  background: var(--ivory);
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3{
+  font-family: var(--font-display);
+  line-height: 1.1;
+  margin: 0 0 .5rem;
+  letter-spacing: -0.01em;
+}
+p{ margin: 0 0 1rem; color: var(--muted); }
+a{ color: inherit; text-decoration: none; }
+button{ font-family: inherit; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *{ animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  padding: .75rem 1.4rem;
+  border-radius: var(--radius-s);
+  font-weight: 600;
+  font-size: .92rem;
+  border: 1px solid transparent;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:focus-visible{ outline: 3px solid var(--amber); outline-offset: 2px; }
+.btn-solid{
+  background: var(--amber);
+  color: var(--asphalt);
+}
+.btn-solid:hover{ background: var(--amber-dark); transform: translateY(-1px); }
+.btn-solid:disabled{ opacity: .6; cursor: not-allowed; transform: none; }
+.btn-block{ width: 100%; }
+
+/* ---------- login screen ---------- */
+.login-wrap{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--asphalt);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-wrap::after{
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 4px;
+  background-image: repeating-linear-gradient(90deg, var(--amber) 0 26px, transparent 26px 46px);
+  opacity: .55;
+}
+
+.login-box{
+  background: var(--card);
+  width: 100%;
+  max-width: 380px;
+  border-radius: var(--radius-l);
+  padding: 2.2rem 2rem;
+  box-shadow: 0 20px 50px -20px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.login-brand{
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: 1.4rem;
+}
+.login-brand-mark{
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--asphalt);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.login-brand-mark svg{ width: 19px; height: 19px; }
+.login-brand-name{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--asphalt);
+}
+
+.login-box .eyebrow{
+  font-family: var(--font-mono);
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: .5rem;
+}
+.login-box h1{ font-size: 1.5rem; margin: 0 0 .3rem; color: var(--charcoal); }
+.login-box .sub{ font-size: .9rem; margin-bottom: 1.5rem; }
+
+.field{ display: flex; flex-direction: column; gap: .35rem; }
+.field + .field{ margin-top: .9rem; }
+.field label{
+  font-size: .72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+.field-input-wrap{ position: relative; }
+.field input{
+  width: 100%;
+  padding: .7rem .7rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--line);
+  font-family: var(--font-body);
+  font-size: .95rem;
+  background: var(--ivory);
+  color: var(--charcoal);
+}
+.field input::placeholder{ color: #A8A196; }
+.field input:focus{
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+}
+.field input.has-error{ border-color: #D9453D; }
+
+.pw-toggle{
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 4px 6px;
+}
+.pw-toggle:hover{ color: var(--charcoal); }
+
+.login-row-between{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .9rem;
+  font-size: .84rem;
+}
+.remember-me{
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--muted);
+}
+.remember-me input{ accent-color: var(--amber); width: 15px; height: 15px; }
+.forgot-link{
+  color: var(--teal);
+  font-weight: 600;
+}
+.forgot-link:hover{ text-decoration: underline; }
+
+.form-error{
+  background: #FDECEC;
+  color: #B3261E;
+  font-size: .85rem;
+  padding: .65rem .8rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: none;
+  align-items: center;
+  gap: .5rem;
+}
+.form-error.show{ display: flex; }
+
+.login-submit{ margin-top: 1.4rem; }
+
+.login-divider{
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin: 1.4rem 0;
+  color: var(--muted);
+  font-size: .78rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.login-divider::before, .login-divider::after{
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.signup-note{
+  text-align: center;
+  font-size: .88rem;
+  color: var(--muted);
+  margin: 0;
+}
+.signup-note a{ color: var(--teal); font-weight: 600; }
+.signup-note a:hover{ text-decoration: underline; }
+
+.login-back{
+  display: block;
+  text-align: center;
+  margin-top: 1.3rem;
+  font-size: .85rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  width: 100%;
+}
+.login-back:hover{ color: var(--charcoal); }
+
+@media (max-width: 420px){
+  .login-box{ padding: 1.8rem 1.4rem; border-radius: var(--radius-m); }
+}
+
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-box">
+
+    <div class="login-brand">
+      <span class="login-brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 16.5V12l2.2-5.4A2 2 0 0 1 8.06 5.3h7.88a2 2 0 0 1 1.86 1.3L20 12v4.5" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="7.5" cy="16.5" r="1.6" stroke="#FAF6EF" stroke-width="1.6"/>
+          <circle cx="16.5" cy="16.5" r="1.6" stroke="#FAF6EF" stroke-width="1.6"/>
+          <path d="M4 13h16" stroke="#FAF6EF" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="login-brand-name">Go Ride</span>
+    </div>
+
+    <div class="eyebrow">Welcome back</div>
+    <h1>Log in</h1>
+    <p class="sub">Enter your details to access your account.</p>
+
+    <div class="form-error" id="loginErrorMsg">Incorrect username/phone or password.</div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="loginUser">Username or phone number</label>
+        <input type="text" id="loginUser" autocomplete="username" required>
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <div class="field-input-wrap">
+          <input type="password" id="loginPassword" autocomplete="current-password" required>
+          <button type="button" class="pw-toggle" id="pwToggle">Show</button>
+        </div>
+      </div>
+
+      <div class="login-row-between">
+        <label class="remember-me">
+          <input type="checkbox" id="rememberMe">
+          Remember me
+        </label>
+        <a href="#" class="forgot-link" id="forgotLink">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-solid btn-block login-submit" id="loginSubmitBtn">Log in</button>
+    </form>
+
+    <p class="signup-note">Don't have an account? <a href="#" id="signupLink">Sign up</a></p>
+
+    <button type="button" class="login-back" id="loginBackBtn">← Back to site</button>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById("loginForm");
+const userInput = document.getElementById("loginUser");
+const pwInput = document.getElementById("loginPassword");
+const errorMsg = document.getElementById("loginErrorMsg");
+const submitBtn = document.getElementById("loginSubmitBtn");
+const pwToggle = document.getElementById("pwToggle");
+
+pwToggle.addEventListener("click", () => {
+  const isPw = pwInput.type === "password";
+  pwInput.type = isPw ? "text" : "password";
+  pwToggle.textContent = isPw ? "Hide" : "Show";
+});
+
+function showError(message){
+  errorMsg.textContent = message;
+  errorMsg.classList.add("show");
+  userInput.classList.add("has-error");
+  pwInput.classList.add("has-error");
+}
+
+function clearError(){
+  errorMsg.classList.remove("show");
+  userInput.classList.remove("has-error");
+  pwInput.classList.remove("has-error");
+}
+
+[userInput, pwInput].forEach(el => el.addEventListener("input", clearError));
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  clearError();
+
+  const username = userInput.value.trim();
+  const password = pwInput.value;
+
+  if(!username || !password){
+    showError("Please fill in both fields.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Logging in…";
+
+  try {
+    // Replace this block with a real call to your auth API, e.g.:
+    // const res = await fetch(`${API_BASE}/auth/login`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ username, password }),
+    // });
+    // if(!res.ok) throw new Error("Invalid credentials");
+    // const user = await res.json();
+
+    await new Promise(r => setTimeout(r, 600)); // placeholder delay
+
+    // demo-only check so the page is runnable stand-alone
+    if(password.length < 4){
+      throw new Error("Invalid credentials");
+    }
+
+    sessionStorage.setItem("goride_logged_in", "true");
+    window.location.href = "index.html"; // redirect to your dashboard/homepage
+
+  } catch (err) {
+    console.error(err);
+    showError("Incorrect username/phone or password.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Log in";
+  }
+});
+
+document.getElementById("loginBackBtn").addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
+document.getElementById("forgotLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  alert("Hook this up to your password-reset flow.");
+});
+
+document.getElementById("signupLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  alert("Hook this up to your sign-up page.");
+});
+</script>
+</body>
+</html>
